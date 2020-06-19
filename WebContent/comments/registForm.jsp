@@ -23,7 +23,7 @@ input[type=text], select, textarea {
 	resize: vertical;
 }
 
-input[type=submit] {
+input[type=button] {
 	background-color: #4CAF50;
 	color: white;
 	padding: 12px 20px;
@@ -56,13 +56,13 @@ $(function(){
 	<h3>Contact Form</h3>
 
 	<div class="container">
-		<form action="/action_page.php">
+		<form>
 			<input type="text" id="fname"	name="firstname" placeholder="Your name..">
 			<input type="text" id="lname"	name="lastname" placeholder="Your last name..">		
 			<textarea id="content" name="subject" placeholder="Write something.."
 				style="height: 200px"></textarea>
-			<input type="submit" value="등록">
-			<input type="submit" value="목록">
+			<input type="button" value="등록">
+			<input type="button" value="목록">
 		</form>
 	</div>
 
