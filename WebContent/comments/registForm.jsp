@@ -52,8 +52,13 @@ $(function(){
 	//등록버튼
 	$($("input[type='button']")[0]).click(function(){
 		//글 등록을 서버에 요청한다!! (jsp or servlet)
-		
+		$("form").attr({
+			"action":"/comments/regist.jsp",
+			"method":"post"
+		});
+		$("form").submit();
 	});
+	
 	//목록버튼
 	$($("input[type='button']")[1]).click(function(){		
 		location.href="/comments/list.jsp";
@@ -68,9 +73,9 @@ $(function(){
 
 	<div class="container">
 		<form>
-			<input type="text" id="fname"	name="firstname" placeholder="Your name..">
-			<input type="text" id="lname"	name="lastname" placeholder="Your last name..">		
-			<textarea id="content" name="subject" placeholder="Write something.."
+			<input type="text" id="fname"	name="title" placeholder="Your name..">
+			<input type="text" id="lname"	name="writer" placeholder="Your last name..">		
+			<textarea id="content" name="content" placeholder="Write something.."
 				style="height: 200px"></textarea>
 			<input type="button" value="등록">
 			<input type="button" value="목록">
