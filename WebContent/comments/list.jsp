@@ -9,8 +9,8 @@ table {
 	border-spacing: 0;
 	width: 100%;
 	border: 1px solid #ddd;
-	position:relative;
-	left:-2000px;
+	position: relative;
+	left: -2000px;
 }
 
 th, td {
@@ -22,12 +22,13 @@ tr:nth-child(even) {
 	background-color: #f2f2f2;
 }
 </style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-//문서가 로드되어야 생성된 DOM에 접근할 수 있으므로.
-	$(function(){
+	//문서가 로드되어야 생성된 DOM에 접근할 수 있으므로.
+	$(function() {
 		$("table").animate({
-			left:'0px' // js style.left 와 동일
+			left : '0px' // js style.left 와 동일
 		});
 	});
 </script>
@@ -40,26 +41,35 @@ tr:nth-child(even) {
 
 	<table>
 		<tr>
-			<th>First Name</th>
-			<th>Last Name</th>
-			<th>Points</th>
+			<th>No</th>
+			<th>제목</th>
+			<th>작성자</th>
+			<th>등록일</th>
+			<th>조회수</th>
 		</tr>
 		<tr>
 			<td>Jill</td>
 			<td>Smith</td>
 			<td>50</td>
+			<td>50</td>
+			<td>50</td>
 		</tr>
 		<tr>
-			<td>Eve</td>
-			<td>Jackson</td>
-			<td>94</td>
-		</tr>
-		<tr>
-			<td>Adam</td>
-			<td>Johnson</td>
-			<td>67</td>
+			<td colspan="5">
+				<button onClick="location.href='/comments/registForm.jsp';">글등록</button>
+			</td>
 		</tr>
 	</table>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
