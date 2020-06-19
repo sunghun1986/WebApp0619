@@ -14,7 +14,7 @@ public class CommentsDAO {
 	
 	DBManager manager = DBManager.getInstance();
 	
-	//댓글 한건 등록!
+	//댓글 한건 등록!!
 	public int insert(Comments comments) {
 		int result = 0;
 		Connection con=null;

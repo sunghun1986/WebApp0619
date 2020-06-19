@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 //드라이버 로드, 접속 및 해제를 대신해주는 객체!!
-//DAO의 메서드마다 db관련 코드의 중복이 발생하니깐...
+//DAO의 메서드마다 db관련 코드의 중복이 발생하니깐...!
 public class DBManager {
 	
 	String driver="oracle.jdbc.driver.OracleDriver";

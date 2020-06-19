@@ -7,7 +7,7 @@
 %>
 <%
 
-	//입력폼에서 전송된 파라미터 받아서 DAO의 insert 메서드를 호출하자!!
+	//입력폼에서 전송된 파라미터 받아서 DAO의 insert 메서드를 호출하자!!!
 	request.setCharacterEncoding("utf-8");//파라미터 받기전에 인코딩
 	
 	String title = request.getParameter("title");

@@ -23,13 +23,13 @@
 	comments.setMsg(msg);
 	comments.setCwriter(cwriter);
 	
-	//vo간 합체!!
+	//vo간 합체!!!
 	comments.setNews(news);	
 	int result = commentsDAO.insert(comments);
 	
 	if(result !=0){
 		out.print("<script>");
-		out.print("alert('댓글등록성공');");
+		//out.print("alert('댓글등록성공');");
 		out.print("location.href='/comments/content.jsp?news_id="+news_id+"';");
 		out.print("</script>");
 	}else{

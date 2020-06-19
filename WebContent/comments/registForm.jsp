@@ -51,7 +51,7 @@ $(function(){
 	
 	//등록버튼
 	$($("input[type='button']")[0]).click(function(){
-		//글 등록을 서버에 요청한다!! (jsp or servlet)
+		//글 등록을 서버에 요청한다!!! (jsp or servlet)
 		$("form").attr({
 			"action":"/comments/regist.jsp",
 			"method":"post"

@@ -94,7 +94,7 @@ input[type=submit]:hover {
 		});
 		//댓글 등록 버튼
 		$($("input[type='button']")[2]).click(function() {
-			//서버에 댓글 등록 요청
+			//서버에 댓글 등록 요청!
 			$($("form")[1]).attr({
 				"mothod":"post",
 				"action":"/comments/cmRegist.jsp"				
