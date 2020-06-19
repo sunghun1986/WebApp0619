@@ -48,6 +48,17 @@ input[type=submit]:hover {
 <script>
 $(function(){
 	CKEDITOR.replace( "content" );
+	
+	//등록버튼
+	$($("input[type='button']")[0]).click(function(){
+		//글 등록을 서버에 요청한다!! (jsp or servlet)
+		
+	});
+	//목록버튼
+	$($("input[type='button']")[1]).click(function(){		
+		location.href="/comments/list.jsp";
+	});
+	
 });
 </script>
 </head>
