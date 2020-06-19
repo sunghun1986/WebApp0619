@@ -14,6 +14,16 @@ public class DBManager {
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
 	String user = "c##java";
 	String password = "1234";
+	private static DBManager instance;//외부의 필요한 자가 인스턴스를 가져갈수 있도록
+	
+	private DBManager() {		
+	}
+	public static DBManager getInstance() {
+		if(instance ==null) {//인스턴스가 없는경우만.. 그니까 딱 한번임
+			instance = new DBManager();
+		}
+		return instance;
+	}
 	
 	//호출자가 Connection을 얻어갈 수 있게 반환하는 메서드!
 	public Connection getConnection() {
