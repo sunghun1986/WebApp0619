@@ -1,4 +1,13 @@
+<%@page import="com.study.model.gboard.GBoard"%>
+<%@page import="java.util.List"%>
+<%@page import="com.study.model.gboard.GBoardDAO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%!
+	GBoardDAO gboardDAO = new GBoardDAO();	
+%>
+<%
+	List<GBoard> list = gboardDAO.selectAll();
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,15 +43,19 @@ tr:nth-child(even) {
 			<th>등록일</th>
 			<th>조회수</th>
 		</tr>
-		
+		<%int total = list.size(); %>
+		<%for(int i = 0; i < list.size(); i++){ %>
+		<%GBoard gboard = list.get(i);%>
 		<tr>
-			<td>1</td>
-			<td>Smith</td>
-			<td>안녕하세용</td>
-			<td>최성헌</td>
-			<td>2020-06-22</td>
-			<td>2</td>
+			<td><%=total--%></td>
+			<td><img src="/data/<%=gboard.getFilename()%>" width="50px"></td>
+			<td><%=gboard.getTitle()%></td>
+			<td><%=gboard.getWriter()%></td>			
+			<td><%=gboard.getRegdate().substring(0,10)%></td>
+			<td><%=gboard.getHit()%></td>
 		</tr>
+		
+		<%}%>
 		<tr>
 			<td colspan="6">
 				<button onClick="location.href='/gboard/registForm.jsp';">등록</button>
