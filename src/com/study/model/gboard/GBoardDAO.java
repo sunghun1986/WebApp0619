@@ -48,9 +48,9 @@ public class GBoardDAO {
 		ResultSet rs = null;
 		List list = new ArrayList();
 		
-		con = dbManager.getConnection();
 		String sql = "select * from gboard order by gboard_id desc";
-		
+		con = dbManager.getConnection();
+
 		try {
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -75,10 +75,43 @@ public class GBoardDAO {
 			e.printStackTrace();
 		}finally {
 			dbManager.freeConnection(con,pstmt,rs);
+		}		
+		return list;
+	}
+	
+	public GBoard select(int gboard_id) {
+		List list = new ArrayList();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		GBoard gboard = null;
+		
+		String sql="select * from gboard where gboard_id=?";
+		con = dbManager.getConnection();
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, gboard_id);
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()) {
+				gboard = new GBoard();
+				gboard.setGboard_id(rs.getInt("gboard_id"));
+				gboard.setTitle(rs.getString("title"));
+				gboard.setWriter(rs.getString("writer"));
+				gboard.setContent(rs.getString("content"));
+				gboard.setRegdate(rs.getString("regdate"));
+				gboard.setHit(rs.getInt("hit"));
+				list.add(gboard);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			dbManager.freeConnection(con, pstmt, rs);
 		}
 		
-		
-		return list;
+		return gboard;
 	}
 	
 }

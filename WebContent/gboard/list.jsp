@@ -29,6 +29,9 @@ tr:nth-child(even) {
 	background-color: #f2f2f2;
 }
 </style>
+<script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 
@@ -36,12 +39,12 @@ tr:nth-child(even) {
 
 	<table>
 		<tr>
-			<th>No</th>
-			<th>이미지</th>
-			<th>제목</th>
-			<th>작성자</th>
-			<th>등록일</th>
-			<th>조회수</th>
+			<th width="5%">No</th>
+			<th width="15%">이미지</th>
+			<th width="50%">제목</th>
+			<th width="10%">작성자</th>
+			<th width="10%">등록일</th>
+			<th width="10%">조회수</th>
 		</tr>
 		<%int total = list.size(); %>
 		<%for(int i = 0; i < list.size(); i++){ %>
@@ -49,7 +52,7 @@ tr:nth-child(even) {
 		<tr>
 			<td><%=total--%></td>
 			<td><img src="/data/<%=gboard.getFilename()%>" width="50px"></td>
-			<td><%=gboard.getTitle()%></td>
+			<td><a href="/gboard/content.jsp?gboard_id=<%=gboard.getGboard_id()%>"><%=gboard.getTitle()%></a></td>
 			<td><%=gboard.getWriter()%></td>			
 			<td><%=gboard.getRegdate().substring(0,10)%></td>
 			<td><%=gboard.getHit()%></td>

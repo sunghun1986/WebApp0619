@@ -48,6 +48,10 @@ input[type=button]:hover {
 <script>
 	$(function() {
 		CKEDITOR.replace('content');
+		
+		$($("input[type='button']")[1]).click(function(){
+			location.href="/gboard/list.jsp";
+		});		
 	});
 
 	//파일을 포함한 댈ㅇ의 데이터를 웹서버 요청시 가져가려면?
@@ -76,6 +80,7 @@ input[type=button]:hover {
 			<textarea id="content" name="content" placeholder="Write something.."
 				style="height: 200px"></textarea>
 			<input type="button" value="등록" onClick="regist()" />
+			<input type="button" value="목록"/>
 		</form>
 	</div>
 </body>
