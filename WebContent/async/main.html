@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SPA 만들기</title>
+<style>
+.wrapper {
+	width: 1000px;
+	height: 600px;
+	margin: auto;
+	border: 2px solid red;
+}
+.inputArea{
+	width:20%;
+	height:600px;
+	background: yellow;
+	float:left;
+}
+.listArea{
+	width:60%;
+	height:600px;
+	background: cyan;
+	float:left;
+}
+.detailArea{
+	width:20%;
+	height:600px;
+	background: orange;
+	float:left;
+}
+div{
+	text-align:center;
+}
+</style>
+<script>
+	/*
+		Ajax란?
+		-자바스크립트를 이용한 비동기 통신 기술을 의미하는데,
+		순수한 자바스크립트를 이용하는 방법과 JQuery를 이용하는 방법이
+		있다....
+		-장점: 새로고침없는 어플리케이션 제작이 가능!!
+		
+	*/
+</script>
+</head>
+<body>
+	<div class="wrapper">
+		<div class="inputArea">
+			<input type="text" placeholder="가게명"/>
+			<input type="text" placeholder="연락처"/>
+			<input type="text" placeholder="지역"/>
+			<input type="text" placeholder="대표메뉴"/>
+			<button>등록</button>
+			<button>목록</button>
+		</div>
+		<div class="listArea">
+			<table width="100%" border="1px">
+				<tr>
+					<td>No</td>
+					<td>가게명</td>
+					<td>연락처</td>
+					<td>지역</td>
+					<td>대표메뉴</td>
+				</tr>
+			</table>
+		</div>
+		<div class="detailArea">
+			<input type="text" placeholder="가게명"/>
+			<input type="text" placeholder="연락처"/>
+			<input type="text" placeholder="지역"/>
+			<input type="text" placeholder="대표메뉴"/>
+			<button>수정</button>
+			<button>삭제</button>
+		</div>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
