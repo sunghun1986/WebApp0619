@@ -103,15 +103,30 @@ div{
 		}
 		listArea.innerHTML=tag;
 	}
+	
+	//평상시와 다르게 비동기 요청을 시도한다
+	function regist(){
+		var xmlRequest = new XMLHttpRequest();
+		xmlRequest.open("POST","/async/regist.jsp",true);
+		//post방식의 경우 body 구성
+		xmlRequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		
+		var name=document.getElementById("name").value;
+		var tel=document.getElementById("tel").value;
+		var addr=document.getElementById("addr").value;
+		var food=document.getElementById("food").value;
+		
+		xmlRequest.send("name="+name+"&tel="+tel+"&addr="+addr+"&food="+food);
+	}
 </script>
 </head>
 <body>
 	<div class="wrapper">
 		<div class="inputArea">
-			<input type="text" placeholder="가게명"/>
-			<input type="text" placeholder="연락처"/>
-			<input type="text" placeholder="지역"/>
-			<input type="text" placeholder="대표메뉴"/>
+			<input type="text" id="name" placeholder="가게명"/>
+			<input type="text" id="tel" placeholder="연락처"/>
+			<input type="text" id="addr" placeholder="지역"/>
+			<input type="text" id="food" placeholder="대표메뉴"/>
 			<button onclick="regist();">등록</button>
 			<button onclick="getList();">목록</button>
 		</div>
