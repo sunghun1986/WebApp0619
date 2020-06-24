@@ -4,103 +4,133 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-.wrapper{
-	width:1000px;
-	height:600px;
-	border:2px solid blue;
+.wrapper {
+	width: 1000px;
+	height: 600px;
+	border: 2px solid blue;
 }
-.registArea{
-	width:200px;
-	height:600px;
-	background:yellow;
-	float:left;
+
+.registArea {
+	width: 200px;
+	height: 600px;
+	background: yellow;
+	float: left;
 }
-.contentArea{
-	width:600px;
-	height:600px;
-	background:cyan;
-	float:left;
+
+.contentArea {
+	width: 600px;
+	height: 600px;
+	background: cyan;
+	float: left;
 }
-.detailArea{
-	width:200px;
-	height:600px;
-	background:pink;
-	float:left;
+
+.detailArea {
+	width: 200px;
+	height: 600px;
+	background: pink;
+	float: left;
 }
-#listArea{
-	width:600px;
-	height:150px;
+
+#listArea {
+	width: 600px;
+	height: 150px;
 }
-#mapArea{
-	width:600px;
-	height:450px;
+
+#mapArea {
+	width: 600px;
+	height: 450px;
 }
-div{
-	text-align:center;
+
+div {
+	text-align: center;
 }
 </style>
 <script>
-function loadData(){
-	//비동기 통신으로, 아이콘 가져오기!!
-	getIcons();
-	initMap();
-}
-function getIcons(){
-	var httpObj = new XMLHttpRequest();//비동기 통신객체
-	//비동기 객체가 통신시 맞이하게 되는 각 이벤트마다 우측의 익명함수호출
-	httpObj.onreadystatechanget=function(){
-		//도착하되, 서버에서 성공적인 응답이라면
-		if(this.readyState==4 && this.status==200){
-			alert("서버가 정송한 메시지:"+this.responseText);
-		}
-	};
-	httpObj.open("GET","/store/icons.jsp",true);//준비
-	httpObj.send();//통신 시작!
-	
-}
+	function loadData() {
+		//비동기 통신으로, 아이콘 가져오기!!
+		getIcons();
+		initMap();
+	}
+	function getIcons() {
+		var httpObj = new XMLHttpRequest();//비동기 통신객체
+		//비동기 객체가 통신시 맞이하게 되는 각 이벤트마다 우측의 익명함수호출
+		httpObj.onreadystatechange = function() {
+			//도착하되, 서버에서 성공적인 응답이라면
+			if (this.readyState == 4 && this.status == 200) {
+				//alert("서버가 전송한 메시지:"+this.responseText);
+				var json = JSON.parse(this.responseText);
 
-function initMap(){
-	//alert("맵 로드 할꺼야!!");
-	var mapProp= {
-			  center:new google.maps.LatLng(51.508742,-0.120850),
-			  zoom:5,
-			};
-	var map = new google.maps.Map(document.getElementById("mapArea"),mapProp);
-}
+				for (var i = 0; i < json.iconsList.length; i++) {
+					var icon = json.iconsList[i];
+					var op = document.createElement("option");
+					//<option value="4">자장면</option>
+					op.text = icon.title;
+					op.value = icon.icons_id;
+					var icons_id = document.getElementById("icons_id");
+					icons_id.add(op);//select 박스에 option을 동적으로 부착
+				}
+			}
+		};
+		httpObj.open("GET", "/store/icons.jsp", true);//준비
+		httpObj.send();//통신 시작!	
+	}
+	//비동기 요청으로 파라미터 전송하기!!
+	function regist() {
+		var httpObj = new XMLHttpRequest();
+		httpObj.open("POST", "/store/regist.jsp", true);
+		httpObj.setRequestHeader("Content-Type",
+				"application/x-www-form-urlencoded");
+
+		var name = document.getElementById("name").value;
+		var addr = document.getElementById("addr").value;
+		var lati = document.getElementById("lati").value;
+		var longi = document.getElementById("longi").value;
+		var icons_id = document.getElementById("icons_id").value;
+		var memo = document.getElementById("memo").value;
+		
+		httpObj.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				if (this.responseText == 1) {
+					alert("등록성공");
+				} else {
+					alert("등록실패");
+				}
+			}
+		}
+		httpObj.send("name="+name+"&addr="+addr+"&lati="+lati+"&longi="+longi+"&icons_id="+icons_id+"&memo="+memo);
+	}
+
+	function initMap() {
+		//alert("맵 로드 할꺼야!!");
+		var mapProp = {
+			center : new google.maps.LatLng(51.508742, -0.120850),
+			zoom : 5,
+		};
+		var map = new google.maps.Map(document.getElementById("mapArea"),
+				mapProp);
+	}
 </script>
 </head>
 <body>
 	<div class="wrapper">
 		<div class="registArea">
-			<input type="text" name="name" placeholder="맛집명"/>
-			<input type="text" name="name" placeholder="주소"/>
-			<input type="text" name="name" placeholder="위도"/>
-			<input type="text" name="name" placeholder="경도"/>
-			<select>
-				<option>핀</option>
-				<option>스마일</option>
-				<option>가게</option>
-				<option>도서관</option>
-			</select>
-			<textarea rows="5" name="name" placeholder="설명"></textarea>
-			<button>등록</button>
-			<button>목록</button>
+			<input type="text" id="name" placeholder="맛집명" /> <input type="text"
+				id="addr" placeholder="주소" /> <input type="text" id="lati"
+				placeholder="위도" /> <input type="text" id="longi" placeholder="경도" />
+			<select id="icons_id"></select>
+			<textarea rows="5" id="memo" placeholder="설명"></textarea>
+			<button onclick="regist()">등록</button>
+			<button onclick="getList()">목록</button>
 		</div>
 		<div class="contentArea">
 			<div id="listArea">맛집목록 출력영역</div>
 			<div id="mapArea">지도 영역</div>
 		</div>
 		<div class="detailArea">
-		<input type="text" name="name" placeholder="맛집명"/>
-			<input type="text" name="name" placeholder="주소"/>
-			<input type="text" name="name" placeholder="위도"/>
-			<input type="text" name="name" placeholder="경도"/>
-			<select>
-				<option>핀</option>
-				<option>스마일</option>
-				<option>가게</option>
-				<option>도서관</option>
-			</select>
+			<input type="text" name="name" placeholder="맛집명" /> <input
+				type="text" name="name" placeholder="주소" /> <input type="text"
+				name="name" placeholder="위도" /> <input type="text" name="name"
+				placeholder="경도" /> <select id="icons_id"></select>
 			<textarea rows="5" name="name" placeholder="설명"></textarea>
 			<button>등록</button>
 			<button>목록</button>
@@ -108,7 +138,8 @@ function initMap(){
 	</div>
 </body>
 </html>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjrxyuVnbEIdMCcAhQFFNiHwhNc3nQUUE&callback=loadData"></script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjrxyuVnbEIdMCcAhQFFNiHwhNc3nQUUE&callback=loadData"></script>
 
 
 
