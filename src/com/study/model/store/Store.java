@@ -6,7 +6,7 @@ public class Store {
 	private String addr;
 	private double lati;
 	private double longi;
-	private String img;
+	private Icons icons;
 	private String memo;
 	public int getStore_id() {
 		return store_id;
@@ -38,11 +38,11 @@ public class Store {
 	public void setLongi(double longi) {
 		this.longi = longi;
 	}
-	public String getImg() {
-		return img;
+	public Icons getIcons() {
+		return icons;
 	}
-	public void setImg(String img) {
-		this.img = img;
+	public void setIcons(Icons icons) {
+		this.icons = icons;
 	}
 	public String getMemo() {
 		return memo;
@@ -50,7 +50,6 @@ public class Store {
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
-	
 	
 	
 	
