@@ -32,13 +32,19 @@ public class StoreDAO {
 			
 			while(rs.next()) {
 				Store store = new Store();
+				Icons icons = new Icons();
+				
+				icons.setIcons_id(rs.getInt("icons_id"));
+				icons.setTitle(rs.getString("title"));				
+				icons.setFilename(rs.getString("filename"));
+				
 				store.setStore_id(rs.getInt("store_id"));
 				store.setName(rs.getString("name"));
 				store.setAddr(rs.getString("addr"));
 				store.setLati(rs.getDouble("lati"));
 				store.setLongi(rs.getDouble("longi"));
-				store.setImg(rs.getString("img"));
-				store.setMemo(rs.getString("memo"));
+				store.setIcons(icons);
+				store.setMemo(rs.getString("memo"));				
 				
 				list.add(store);
 			}			
@@ -58,7 +64,7 @@ public class StoreDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;		
 		
-		String sql = "select * from store where store_id=?";
+		String sql = "select * from store s where store_id=?";
 		
 		con = manager.getConnection();
 		
@@ -70,12 +76,19 @@ public class StoreDAO {
 			
 			if(rs.next()) {
 				store = new Store();
+				Icons icons = new Icons();
+				
+				icons.setIcons_id(rs.getInt("icons_id"));
+				icons.setTitle(rs.getString("title"));				
+				icons.setFilename(rs.getString("filename"));
+				
 				store.setStore_id(rs.getInt("store_id"));
 				store.setName(rs.getString("name"));
 				store.setAddr(rs.getString("addr"));
 				store.setLati(rs.getDouble("lati"));
 				store.setLongi(rs.getDouble("longi"));
-				store.setImg(rs.getString("img"));
+				store.setIcons(icons);
+				store.setMemo(rs.getString("memo"));				
 				
 			}
 				
@@ -92,10 +105,10 @@ public class StoreDAO {
 		int result = 0;
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		con = manager.getConnection();
 		
-		String sql="insert into store(store_id,name,addr,lati,longi,img,memo)";
+		String sql="insert into store(store_id,name,addr,lati,longi,icons_id,memo)";
 		sql+=" values(seq_store.nextval,?,?,?,?,?,?)";
+		con = manager.getConnection();
 		
 		try {
 			pstmt=con.prepareStatement(sql);
@@ -103,8 +116,8 @@ public class StoreDAO {
 			pstmt.setString(1, store.getName());
 			pstmt.setString(2, store.getAddr());
 			pstmt.setDouble(3, store.getLati());
-			pstmt.setDouble(4, store.getLongi());
-			pstmt.setString(5, store.getImg());
+			pstmt.setDouble(4, store.getLongi());		
+			pstmt.setInt(5, store.getIcons().getIcons_id());		
 			pstmt.setString(6, store.getMemo());
 			
 			result = pstmt.executeUpdate();
@@ -126,7 +139,7 @@ public class StoreDAO {
 		PreparedStatement pstmt = null;		
 		
 		String sql="update store set name=?,addr=?,lati=?,longi=?";
-		sql+=",img=?,memo=? where store_id=?";
+		sql+=",icons_id=?,memo=? where store_id=?";
 		
 		con = manager.getConnection();
 		
@@ -136,8 +149,8 @@ public class StoreDAO {
 			pstmt.setString(1, store.getName());
 			pstmt.setString(2, store.getAddr());
 			pstmt.setDouble(3, store.getLati());
-			pstmt.setDouble(4, store.getLongi());
-			pstmt.setString(5, store.getImg());
+			pstmt.setDouble(4, store.getLongi());		
+			pstmt.setInt(4, store.getIcons().getIcons_id());		
 			pstmt.setString(6, store.getMemo());
 			pstmt.setInt(7, store.getStore_id());
 			
