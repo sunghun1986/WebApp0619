@@ -37,9 +37,10 @@
 	font-size:9pt;
 }
 
-#mapArea {
+iframe {
 	width: 600px;
 	height: 450px;
+	
 }
 
 div {
@@ -47,13 +48,15 @@ div {
 }
 </style>
 <script>
-var map;//현재 사용중인 지도 객체의 전역변수
+var json={
+		"storeList":[]
+};//아이프레임이 접근할 수 있게 하기 위함
 
-	function loadData() {
-		//비동기 통신으로, 아이콘 가져오기!!
-		getIcons();
-		initMap();
-	}
+addEventListener("load",function(){	
+		getIcons();	
+		getList();
+});
+
 	function getIcons() {
 		var httpObj = new XMLHttpRequest();//비동기 통신객체
 		//비동기 객체가 통신시 맞이하게 되는 각 이벤트마다 우측의 익명함수호출
@@ -111,7 +114,12 @@ var map;//현재 사용중인 지도 객체의 전역변수
 				//가져온 데이터를 화면에 출력!!
 				console.log(this.responseText);
 				printList(JSON.parse(this.responseText));
-				printMarker(JSON.parse(this.responseText));//지도에 마커 생성
+				
+				//지도 프레임을 새로고침 하자!!
+				json=JSON.parse(this.responseText);
+				
+				var mapFrame = document.getElementById("mapFrame");
+				mapFrame.src="/store/map.html";
 			}
 		};
 		
@@ -152,32 +160,9 @@ var map;//현재 사용중인 지도 객체의 전역변수
 			var listArea = document.getElementById("listArea");
 			listArea.innerHTML=tag;
 	}
-	//지도에 아이콘 오버레이(over)하자!!
-	function printMarker(json){
-		for(var i = 0; i < json.storeList.length; i++){
-			var obj = json.storeList[i];
-			//마커 객체 한개를 생성
-			var marker = new google.maps.Marker({
-				position:new google.maps.LatLng(obj.lati, obj.longi),
-				animation:google.maps.Animation.BOUNCE,
-				icon:{
-					url:'/icons/'+obj.filename,
-					scaledSize:new google.maps.Size(35,35)
-				}
-			});
-		marker.setMap(map);//생성된 마커를 지도에 반영!
-		}
-	}
+	
 
-	function initMap() {
-		//alert("맵 로드 할꺼야!!");
-		var mapProp = {
-			center : new google.maps.LatLng(51.508742, -0.120850),
-			zoom : 5,
-		};
-		map = new google.maps.Map(document.getElementById("mapArea"),
-				mapProp);
-	}
+
 </script>
 </head>
 <body>
@@ -194,14 +179,19 @@ var map;//현재 사용중인 지도 객체의 전역변수
 		</div>
 		<div class="contentArea">
 			<div id="listArea">맛집목록 출력영역</div>
-			<div id="mapArea">지도 영역</div>
+			<iframe id="mapFrame" src="/store/map.html" frameborder="0px"></iframe>
 		</div>
 		<div class="detailArea">
 			<input type="text" name="name" placeholder="맛집명" />
 			<input type="text" name="name" placeholder="주소" />
 			<input type="text" name="name" placeholder="위도" />
 			<input type="text" name="name" placeholder="경도" />
-			<select id="icons_id"></select>
+			<select>
+				<option>핀</option>
+				<option>스마일</option>
+				<option>몰라</option>
+				<option>뭐야</option>
+			</select>
 			<textarea rows="5" name="name" placeholder="설명"></textarea>
 			<button>등록</button>
 			<button>목록</button>
@@ -209,8 +199,7 @@ var map;//현재 사용중인 지도 객체의 전역변수
 	</div>
 </body>
 </html>
-<script
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjrxyuVnbEIdMCcAhQFFNiHwhNc3nQUUE&callback=loadData"></script>
+
 
 
 
