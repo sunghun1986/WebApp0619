@@ -19,8 +19,7 @@
 
 .contentArea {
 	width: 600px;
-	height: 600px;
-	background: cyan;
+	height: 600px;	
 	float: left;
 }
 
@@ -34,6 +33,8 @@
 #listArea {
 	width: 600px;
 	height: 150px;
+	overflow:scroll;
+	font-size:9pt;
 }
 
 #mapArea {
@@ -46,6 +47,8 @@ div {
 }
 </style>
 <script>
+var map;//현재 사용중인 지도 객체의 전역변수
+
 	function loadData() {
 		//비동기 통신으로, 아이콘 가져오기!!
 		getIcons();
@@ -99,6 +102,72 @@ div {
 		}
 		httpObj.send("name="+name+"&addr="+addr+"&lati="+lati+"&longi="+longi+"&icons_id="+icons_id+"&memo="+memo);
 	}
+	
+	function getList(){
+		var xmlHttp = new XMLHttpRequest();
+		
+		xmlHttp.onreadystatechange=function(){
+			if (this.readyState == 4 && this.status == 200) {
+				//가져온 데이터를 화면에 출력!!
+				console.log(this.responseText);
+				printList(JSON.parse(this.responseText));
+				printMarker(JSON.parse(this.responseText));//지도에 마커 생성
+			}
+		};
+		
+		xmlHttp.open("GET","/store/list.jsp",true);
+		xmlHttp.send();
+	}
+	//제이슨 객체를 html 테이블로 가공해본다!!
+	function printList(json){
+		var tag = "<table width=\"100%\" border=\"1px\">";
+		tag+="<tr>";
+		tag+="<td>store_id</td>";
+		tag+="<td>맛집이름</td>";
+		tag+="<td>주소</td>";
+		tag+="<td>위도</td>";
+		tag+="<td>경도</td>";
+		tag+="<td>설명</td>";
+		tag+="<td>icons_id</td>";
+		tag+="<td>아이콘명</td>";
+		tag+="<td>파일명</td>";
+		tag+="</tr>";
+		
+		for(var i = 0; i < json.storeList.length; i++){
+			var obj = json.storeList[i];
+			tag+="<tr onMouseOver=\"this.style.background='yellow'\" onMouseOut=\"this.style.background=''\">";
+			tag+="<td>"+obj.store_id+"</td>";
+			tag+="<td>"+obj.name+"</td>";
+			tag+="<td>"+obj.addr+"</td>";
+			tag+="<td>"+obj.lati+"</td>";
+			tag+="<td>"+obj.longi+"</td>";
+			tag+="<td>"+obj.memo+"</td>";
+			tag+="<td>"+obj.icons_id+"</td>";
+			tag+="<td>"+obj.title+"</td>";
+			tag+="<td><img src=\"/icons/"+obj.filename+"\" width=\"25px\"/></td>";
+			tag+="</tr>";
+		}
+			tag+="</table>";
+			
+			var listArea = document.getElementById("listArea");
+			listArea.innerHTML=tag;
+	}
+	//지도에 아이콘 오버레이(over)하자!!
+	function printMarker(json){
+		for(var i = 0; i < json.storeList.length; i++){
+			var obj = json.storeList[i];
+			//마커 객체 한개를 생성
+			var marker = new google.maps.Marker({
+				position:new google.maps.LatLng(obj.lati, obj.longi),
+				animation:google.maps.Animation.BOUNCE,
+				icon:{
+					url:'/icons/'+obj.filename,
+					scaledSize:new google.maps.Size(35,35)
+				}
+			});
+		marker.setMap(map);//생성된 마커를 지도에 반영!
+		}
+	}
 
 	function initMap() {
 		//alert("맵 로드 할꺼야!!");
@@ -106,7 +175,7 @@ div {
 			center : new google.maps.LatLng(51.508742, -0.120850),
 			zoom : 5,
 		};
-		var map = new google.maps.Map(document.getElementById("mapArea"),
+		map = new google.maps.Map(document.getElementById("mapArea"),
 				mapProp);
 	}
 </script>
@@ -114,9 +183,10 @@ div {
 <body>
 	<div class="wrapper">
 		<div class="registArea">
-			<input type="text" id="name" placeholder="맛집명" /> <input type="text"
-				id="addr" placeholder="주소" /> <input type="text" id="lati"
-				placeholder="위도" /> <input type="text" id="longi" placeholder="경도" />
+			<input type="text" id="name" placeholder="맛집명" />
+			<input type="text" id="addr" placeholder="주소" />
+			<input type="text" id="lati"	placeholder="위도" />
+			<input type="text" id="longi" placeholder="경도" />
 			<select id="icons_id"></select>
 			<textarea rows="5" id="memo" placeholder="설명"></textarea>
 			<button onclick="regist()">등록</button>
@@ -127,10 +197,11 @@ div {
 			<div id="mapArea">지도 영역</div>
 		</div>
 		<div class="detailArea">
-			<input type="text" name="name" placeholder="맛집명" /> <input
-				type="text" name="name" placeholder="주소" /> <input type="text"
-				name="name" placeholder="위도" /> <input type="text" name="name"
-				placeholder="경도" /> <select id="icons_id"></select>
+			<input type="text" name="name" placeholder="맛집명" />
+			<input type="text" name="name" placeholder="주소" />
+			<input type="text" name="name" placeholder="위도" />
+			<input type="text" name="name" placeholder="경도" />
+			<select id="icons_id"></select>
 			<textarea rows="5" name="name" placeholder="설명"></textarea>
 			<button>등록</button>
 			<button>목록</button>

@@ -22,7 +22,7 @@ public class StoreDAO {
 		
 		List list = new ArrayList();
 		
-		String sql = "select * from store";
+		String sql = "select * from store f,icons i where f.icons_id=i.icons_id";
 		
 		con = manager.getConnection();
 		
