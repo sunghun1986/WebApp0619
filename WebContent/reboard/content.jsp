@@ -7,8 +7,8 @@
 	ReBoard reboard = new ReBoard();
 %>
 <%
-	String reboard_id = request.getParameter("reboard_id");
-	ReBoard reboard = reboardDAO.select(Integer.parseInt(reboard_id));
+	int reboard_id = Integer.parseInt(request.getParameter("reboard_id"));
+	ReBoard reboard = reboardDAO.select(reboard_id);
 %>
 <!DOCTYPE html>
 <html>
@@ -47,6 +47,13 @@ input[type=submit]:hover {
 	background-color: #f2f2f2;
 	padding: 20px;
 }
+.reply {
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	padding: 20px;
+	display:none;
+	
+}
 </style>
 <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
 <script
@@ -54,13 +61,23 @@ input[type=submit]:hover {
 <script>
 	$(function() {
 		CKEDITOR.replace("content");
-		//수정버튼
+		
+		//답변폼 슬라이드 토글 버튼
 		$($("input[type='button']")[0]).click(function() {
+			$(".reply").slideToggle(); // 접었다 폈다
+		});
+		
+		//목록버튼
+		$($("input[type='button']")[3]).click(function() {
 			location.href = "/reboard/list.jsp";
 		});
-		//목록버튼
-		$($("input[type='button']")[1]).click(function() {
-			location.href = "/reboard/list.jsp";
+		//서버에 답변 글 등록요청
+		$($("input[type='button']")[4]).click(function() {
+			$($("form")[1]).attr({
+				"method":"post",
+				"action":"/reboard/reply.jsp"
+			});
+			$($("form")[1]).submit();
 		});
 		
 	});
@@ -75,8 +92,19 @@ input[type=submit]:hover {
 			<input type="text" id="fname" name="title" value="<%=reboard.getTitle()%>">
 			<input type="text" id="lname"	name="writer" value="<%=reboard.getWriter()%>">				
 			<textarea id="content" name="content" style="height: 200px""><%=reboard.getContent()%></textarea>
+			<input type="button" value="답변">
 			<input type="button" value="수정">
+			<input type="button" value="삭제">
 			<input type="button" value="목록">
+		</form>
+	</div>
+	
+	<div class="reply">
+		<form>
+			<input type="text" id="fname" name="title" value="<%=reboard.getTitle()%>">
+			<input type="text" id="lname"	name="writer" value="<%=reboard.getWriter()%>">				
+			<textarea id="content" name="content" style="height: 200px""><%=reboard.getContent()%></textarea>
+			<input type="button" value="답변등록">
 		</form>
 	</div>
 	

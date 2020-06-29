@@ -89,10 +89,22 @@ public class ReBoardDAO {
 	//답변의 경우에는=기존자리확보 + 글 등록
 	//답변이 들어갈 자리 확보하는 메서드!
 	public int updateRank() {
+		//주의 아래의 쿼리는  
+		String sql = "update reboard set rank=rank+1";
+		sql+="where team= 내본팀 and rank> 내본 rank";
 		return 0;
 	}
 	//답변등록 메서드
 	public int reply() {
+		String sql = "insert into reboard(reboard_id,title,writer,content,team,rank,depth)";
+		sql+=" values(seq_reboard.nextval,?,?,?,?,?,?)";
+		
+		//team : 내 본글 team		
+		
+		//rank : 내본글 rank + 1
+		
+		//depth: 내본글 depth+1
+		
 		return 0;
 	}
 	
