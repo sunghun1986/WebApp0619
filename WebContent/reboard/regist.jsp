@@ -26,4 +26,17 @@
 	int result = reBoardDAO.insert(reboard);
 	System.out.println(result);
 	
+	//지정한 URL로 재접속을 시도하라!! 글등록후 리스트페이지로 이동!
+	//여기서 실행부가 응답을 하는것이 아니라, 톰켓에게
+	//준비된 응답객체를 전달하면, 톰켓이 이 reponse객체를
+	//이용하여 응답을 하게된다...........
+	response.sendRedirect("/reboard/list.jsp");
+	//이건 나올까?? 나온다
+	int x = 5;
+	
 %>
+
+
+
+
+

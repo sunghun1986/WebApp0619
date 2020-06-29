@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.study.commons.db.DBManager;
+import com.study.commons.db.PoolManager;
 
 public class ReBoardDAO {
 	
-	DBManager manager = DBManager.getInstance();
+	PoolManager manager = PoolManager.getInstance();
 	
 	public List selectAll() {
 		ArrayList list = new ArrayList();

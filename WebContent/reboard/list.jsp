@@ -1,17 +1,24 @@
+<%@page import="com.study.model.reboard.ReBoard"%>
+<%@page import="java.util.List"%>
+<%@page import="com.study.model.reboard.ReBoardDAO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%!ReBoardDAO reboardDAO = new ReBoardDAO();%>
 <%
+	List<ReBoard> boardList = reboardDAO.selectAll();
+
 	//페이징 처리에 필요한 변수 선언 및 계산!
 	int currentPage=1; //현재 페이지
 	if(request.getParameter("currentPage") != null){
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
-	int totalRecord=26; //총 레코드수
+	int totalRecord=boardList.size(); //총 레코드수
 	int pageSize=10; //페이지당 보여질 레코드 수
 	int totalPage=(int)Math.ceil((float)totalRecord/pageSize); //나올 페이지
 	int blockSize=10;//블럭당 보여질 페이지수!
 	int firstPage=currentPage-(currentPage-1)%blockSize; // 블럭당 시작 페이지
 	int lastPage=firstPage+(blockSize-1);//블럭당 마지막페이지
-	int num=totalRecord-((currentPage-1)*pageSize);//페이지당 시작 번호
+	int curPos=(currentPage-1)*pageSize;//페이지당 시작 인덱스!!
+	int num=totalRecord-curPos;//페이지당 시작 번호
 %>
 <%="현재 페이지는"+currentPage%>
 <!DOCTYPE html>
@@ -67,12 +74,13 @@ $(function(){
 		</tr>
 		<%for(int i = 1; i <= pageSize; i++){%>
 		<%if(num<1)break;%>
+		<%ReBoard reboard=boardList.get(curPos++);%>
 		<tr>
 			<td><%=num--%></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td><%=reboard.getTitle()%></td>
+			<td><%=reboard.getWriter()%></td>
+			<td><%=reboard.getRegdate().substring(0,10)%></td>
+			<td><%=reboard.getHit()%></td>
 		</tr>
 		<%}%>
 		<tr>
