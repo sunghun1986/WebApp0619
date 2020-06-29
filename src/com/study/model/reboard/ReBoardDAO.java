@@ -65,7 +65,7 @@ public class ReBoardDAO {
 			
 			if(rs.next()) {
 				reboard = new ReBoard();
-				reboard.setReboard_id(rs.getInt("reboard_iid"));
+				reboard.setReboard_id(rs.getInt("reboard_id"));
 				reboard.setTitle(rs.getString("title"));
 				reboard.setWriter(rs.getString("writer"));
 				reboard.setContent(rs.getString("content"));

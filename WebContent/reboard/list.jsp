@@ -2,7 +2,9 @@
 <%@page import="java.util.List"%>
 <%@page import="com.study.model.reboard.ReBoardDAO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
-<%!ReBoardDAO reboardDAO = new ReBoardDAO();%>
+<%!ReBoardDAO reboardDAO = new ReBoardDAO();
+	ReBoard reboard = new ReBoard();
+%>
 <%
 	List<ReBoard> boardList = reboardDAO.selectAll();
 
@@ -77,7 +79,7 @@ $(function(){
 		<%ReBoard reboard=boardList.get(curPos++);%>
 		<tr>
 			<td><%=num--%></td>
-			<td><%=reboard.getTitle()%></td>
+			<td><a href="/reboard/content.jsp?reboard_id=<%=reboard.getReboard_id()%>"><%=reboard.getTitle()%></a></td>
 			<td><%=reboard.getWriter()%></td>
 			<td><%=reboard.getRegdate().substring(0,10)%></td>
 			<td><%=reboard.getHit()%></td>
