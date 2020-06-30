@@ -18,30 +18,42 @@ public class MybatisReBoardDAO {
 		return list;
 	}
 	
-/*
-	// 한건만 선택할때는 아이디 넘버만 선택하면됨.
-	public ReBoard select(int reboard_id) {
-
-		return reboard;
+	public int insert(ReBoard reboard) {
+		int result = 0;
+		SqlSession sqlSession = manager.getSqlSession();//가져오기
+		result = sqlSession.insert("test.insert", reboard);
+		sqlSession.commit();//DML만...
+		manager.closeSession(sqlSession);//닫기
+		return result;
 	}
 	
-	//답변의 경우에는=기존자리확보 + 글 등록
-		//답변이 들어갈 자리 확보하는 메서드!
-		public void updateRank(ReBoard reboard) {
-			
-		}
+	public ReBoard select(int reboard_id) {
+		ReBoard reboard=null;
 		
-		//답변등록 메서드
-		public int reply(ReBoard reboard) {			
-			
-			return result;
-		}
-		
-		public int insert(ReBoard reboard) {
-		
-			return result;
-		}
-		
+		SqlSession sqlSession = manager.getSqlSession();//가져오기
+		reboard = (ReBoard)sqlSession.selectOne("test.select", reboard_id);
+		manager.closeSession(sqlSession);//닫기		
+		return reboard;
+	}
+	//주의 아래의 쿼리는
+	public void updateRank(ReBoard reboard) {
+		SqlSession sqlSession = manager.getSqlSession();//가져오기
+		sqlSession.update("test.updateRank", reboard);
+		sqlSession.commit();
+		manager.closeSession(sqlSession);//닫기		
+	}
+	
+	//답변등록 메서드
+	public int reply(ReBoard reboard) {
+		int result = 0;
+		SqlSession sqlSession = manager.getSqlSession();//가져오기
+		result = sqlSession.insert("test.reply", reboard);
+		sqlSession.commit();
+		manager.closeSession(sqlSession);//닫기		
+		return result;
+	}	
+	
+/*		
 		public int update(ReBoard reboard) {
 			
 			return result;

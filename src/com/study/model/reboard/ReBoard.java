@@ -1,7 +1,6 @@
 package com.study.model.reboard;
 
 public class ReBoard {
-	
 	private int reboard_id;
 	private String title;
 	private String writer;
@@ -11,7 +10,6 @@ public class ReBoard {
 	private int team;
 	private int rank;
 	private int depth;
-	
 	
 	public int getReboard_id() {
 		return reboard_id;
@@ -69,6 +67,4 @@ public class ReBoard {
 	}
 	
 	
-	
-
 }
